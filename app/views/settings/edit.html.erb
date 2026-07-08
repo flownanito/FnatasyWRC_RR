@@ -1,15 +1,23 @@
-<div class="p-8 opacity-0 animate-fade-in-up">
-  <div class="mb-10 relative border-b border-zinc-200 dark:border-zinc-800/80 pb-6">
-    <div class="flex items-center gap-3 mb-2">
-      <div class="w-1.5 h-6 bg-red-600 rounded-sm"></div>
-      <h1 class="text-3xl font-light text-zinc-900 dark:text-zinc-100 tracking-wide uppercase"><%= t('settings.title') %></h1>
+<div class="min-h-screen p-8 opacity-0 animate-fade-in-up">
+  
+  <!-- SETTINGS HEADER -->
+  <div class="bg-white dark:bg-zinc-900/40 shadow-xl dark:shadow-none rounded-2xl mb-8 p-8 relative overflow-hidden group border-l-4 border-l-red-600 border border-zinc-200 dark:border-zinc-800/50">
+    <div class="absolute inset-0 opacity-[0.03] pointer-events-none hidden dark:block" style="background-image: linear-gradient(#fff 1px, transparent 1px), linear-gradient(90deg, #fff 1px, transparent 1px); background-size: 20px 20px;"></div>
+    
+    <div class="relative z-10 flex flex-col md:flex-row justify-between items-start md:items-center">
+      <div>
+        <div class="flex items-center gap-3 mb-2">
+          <div class="w-2 h-2 rounded-full bg-red-500 animate-pulse shadow-[0_0_10px_rgba(239,68,68,1)]"></div>
+          <span class="text-[10px] font-mono text-zinc-500 uppercase tracking-[0.2em]">Preferencias</span>
+        </div>
+        <h1 class="text-3xl font-black text-zinc-900 dark:text-white uppercase tracking-wider">
+          <%= t('settings.title') %>
+        </h1>
+      </div>
     </div>
   </div>
 
-  <div class="max-w-3xl bg-white dark:bg-zinc-900/50 shadow-xl dark:shadow-none rounded-2xl p-8 border border-zinc-200 dark:border-zinc-800 relative overflow-hidden">
-    <!-- Grid overlay -->
-    <div class="absolute inset-0 opacity-[0.03] pointer-events-none hidden dark:block" style="background-image: linear-gradient(#fff 1px, transparent 1px), linear-gradient(90deg, #fff 1px, transparent 1px); background-size: 20px 20px;"></div>
-    
+  <div class="max-w-3xl bg-white dark:bg-zinc-900/40 shadow-xl dark:shadow-none rounded-2xl p-8 border border-zinc-200 dark:border-zinc-800/50 relative overflow-hidden">
     <%= form_with(model: current_user, url: settings_path, method: :patch, data: { turbo: false }, class: "relative z-10 space-y-8") do |form| %>
       
       <!-- Language -->

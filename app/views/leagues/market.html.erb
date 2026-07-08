@@ -102,14 +102,14 @@
           <!-- Market Actions -->
           <div class="mt-auto pt-3 border-t border-zinc-200 dark:border-zinc-800/80 flex flex-col gap-2 -mx-4 -mb-4 px-4 pb-4 bg-zinc-50 dark:bg-transparent">
             <% if ld.user_id.nil? %>
-              <%= button_to buy_league_league_driver_path(@league, ld), method: :post, form: { data: { turbo_confirm: "¿Fichar por #{number_to_currency(ld.driver.price, unit: '€', precision: 0)}?" } }, class: "w-full py-3 bg-emerald-600/90 hover:bg-emerald-500 text-white font-bold font-mono text-[10px] rounded uppercase tracking-[0.2em] transition-colors shadow-[0_0_10px_rgba(16,185,129,0.3)] hover:shadow-[0_0_20px_rgba(16,185,129,0.5)]" do %>
+              <%= button_to league_league_driver_purchase_path(@league, ld), method: :post, form: { data: { turbo_confirm: "¿Fichar por #{number_to_currency(ld.driver.price, unit: '€', precision: 0)}?" } }, class: "w-full py-3 bg-emerald-600/90 hover:bg-emerald-500 text-white font-bold font-mono text-[10px] rounded uppercase tracking-[0.2em] transition-colors shadow-[0_0_10px_rgba(16,185,129,0.3)] hover:shadow-[0_0_20px_rgba(16,185,129,0.5)]" do %>
                 FICHAR (<%= number_to_currency(ld.driver.price, unit: '€', precision: 0) %>)
               <% end %>
             <% elsif ld.user_id != current_user.id %>
               <div class="flex justify-between items-center px-1 mb-1">
                 <span class="text-[9px] text-zinc-500 uppercase font-bold tracking-widest">Cláusula de rescisión</span>
               </div>
-              <%= button_to clausulazo_league_league_driver_path(@league, ld), method: :post, form: { data: { turbo_confirm: "¿Pagar el clausulazo de #{number_to_currency(ld.release_clause, unit: '€', precision: 0)}?" } }, class: "w-full py-3 bg-red-600/90 hover:bg-red-500 text-white font-bold font-mono text-[10px] rounded uppercase tracking-[0.2em] transition-colors shadow-[0_0_10px_rgba(239,68,68,0.3)] hover:shadow-[0_0_20px_rgba(239,68,68,0.5)]" do %>
+              <%= button_to league_league_driver_buyout_path(@league, ld), method: :post, form: { data: { turbo_confirm: "¿Pagar el clausulazo de #{number_to_currency(ld.release_clause, unit: '€', precision: 0)}?" } }, class: "w-full py-3 bg-red-600/90 hover:bg-red-500 text-white font-bold font-mono text-[10px] rounded uppercase tracking-[0.2em] transition-colors shadow-[0_0_10px_rgba(239,68,68,0.3)] hover:shadow-[0_0_20px_rgba(239,68,68,0.5)]" do %>
                 CLAUSULAZO (<%= number_to_currency(ld.release_clause, unit: '€', precision: 0) %>)
               <% end %>
             <% else %>
@@ -117,7 +117,7 @@
                 <span class="text-[9px] text-zinc-500 uppercase font-bold tracking-widest">Cláusula de rescisión</span>
                 <span class="text-[10px] text-red-600 dark:text-red-400 font-mono font-bold"><%= number_to_currency(ld.release_clause, unit: '€', precision: 0) %></span>
               </div>
-              <%= button_to sell_league_league_driver_path(@league, ld), method: :post, form: { data: { turbo_confirm: "¿Vender por #{number_to_currency(ld.driver.price * 0.8, unit: '€', precision: 0)}? (Pierdes un 20% por el contrato temporal)" } }, class: "w-full py-3 bg-orange-600/90 hover:bg-orange-500 text-white font-bold font-mono text-[10px] rounded uppercase tracking-[0.2em] transition-colors shadow-[0_0_10px_rgba(234,88,12,0.3)] hover:shadow-[0_0_20px_rgba(234,88,12,0.5)]" do %>
+              <%= button_to league_league_driver_sale_path(@league, ld), method: :post, form: { data: { turbo_confirm: "¿Vender por #{number_to_currency(ld.driver.price * 0.8, unit: '€', precision: 0)}? (Pierdes un 20% por el contrato temporal)" } }, class: "w-full py-3 bg-orange-600/90 hover:bg-orange-500 text-white font-bold font-mono text-[10px] rounded uppercase tracking-[0.2em] transition-colors shadow-[0_0_10px_rgba(234,88,12,0.3)] hover:shadow-[0_0_20px_rgba(234,88,12,0.5)]" do %>
                 VENDER (<%= number_to_currency(ld.driver.price * 0.8, unit: '€', precision: 0) %>)
               <% end %>
             <% end %>
