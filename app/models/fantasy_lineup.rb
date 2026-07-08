@@ -7,6 +7,7 @@ class FantasyLineup < ApplicationRecord
   belongs_to :sponsor
 
   validate :within_budget
+  validates :rally_id, uniqueness: { scope: [:user_id, :league_id], message: "Ya has configurado un setup para este rally" }
 
   def drivers
     league.league_drivers.where(user_id: user.id).map(&:driver)
