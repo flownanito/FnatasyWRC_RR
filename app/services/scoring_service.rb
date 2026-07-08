@@ -3,6 +3,11 @@ class ScoringService
   POINTS = [25, 18, 15, 12, 10, 8, 6, 4, 2, 1].freeze
   # Premios económicos por hacer podio
   PRIZES = [3_000_000.0, 2_000_000.0, 1_000_000.0].freeze
+  
+  # Puntuaciones Power Stage (Top 5)
+  POWER_STAGE_POINTS = [5, 4, 3, 2, 1].freeze
+  # Bonus económico Power Stage (Solo ganador)
+  POWER_STAGE_BONUS = 500_000.0
 
   def self.calculate_for_rally(rally)
     results = rally.official_driver_results.order(:position)
@@ -11,6 +16,12 @@ class ScoringService
       results.each_with_index do |result, index|
         points = POINTS[index] || 0
         prize = PRIZES[index] || 0
+
+        # Calcular bonus de Power Stage si tiene posición registrada (1 a 5)
+        if result.power_stage_position && result.power_stage_position.between?(1, 5)
+          points += POWER_STAGE_POINTS[result.power_stage_position - 1]
+          prize += POWER_STAGE_BONUS if result.power_stage_position == 1
+        end
 
         next if points == 0 && prize == 0
 

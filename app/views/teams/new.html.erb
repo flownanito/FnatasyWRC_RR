@@ -3,10 +3,19 @@
     <div class="absolute inset-0 opacity-[0.03] pointer-events-none" style="background-image: linear-gradient(#fff 1px, transparent 1px), linear-gradient(90deg, #fff 1px, transparent 1px); background-size: 20px 20px;"></div>
     
     <div class="relative z-10">
-      <h1 class="text-3xl font-black uppercase text-white tracking-wider mb-2 border-b border-zinc-800 pb-4">
-        <span class="text-blue-500">CREAR</span> ESCUDERÍA
-      </h1>
-      <p class="text-zinc-400 font-mono text-xs mb-8 uppercase tracking-widest">Inscribe a tu equipo en la comunidad WRC Fantasy</p>
+      <%= render 'shared/page_header', 
+            watermark_text: 'REGISTER',
+            seal_text: 'WRC',
+            department_text: 'Team Registration Office',
+            subtitle: 'New Constructor Entry',
+            title: 'CREAR ESCUDERÍA',
+            description: 'Inscribe a tu equipo en la comunidad WRC Fantasy.',
+            right_label_1: 'Season',
+            right_value_1: '2026',
+            right_label_2: 'Registration',
+            right_value_2: 'OPEN',
+            right_badge_class: 'bg-emerald-100 dark:bg-emerald-900/30 text-emerald-800 dark:text-emerald-400 border-emerald-300 dark:border-emerald-800'
+      %>
 
       <%= form_with(model: @team, class: "space-y-6") do |f| %>
         <% if @team.errors.any? %>
@@ -26,9 +35,24 @@
         </div>
 
         <div>
-          <%= f.label :logo, "URL DEL LOGOTIPO", class: "block text-xs font-bold text-zinc-500 uppercase tracking-widest mb-2" %>
-          <%= f.text_field :logo, class: "w-full bg-zinc-900 border border-zinc-700 rounded-lg p-3 text-white font-mono focus:border-blue-500 focus:ring-1 focus:ring-blue-500 outline-none transition-colors", placeholder: "https://ejemplo.com/logo.svg" %>
-          <p class="text-[10px] text-zinc-600 font-mono mt-2 uppercase tracking-widest">Enlace a imagen SVG, PNG o JPG transparente</p>
+          <%= f.label :logo, "EMBLEMA DE LA ESCUDERÍA", class: "block text-xs font-bold text-zinc-500 uppercase tracking-widest mb-4" %>
+          
+          <div class="grid grid-cols-3 md:grid-cols-6 gap-4">
+            <% ['apex', 'vector', 'shield', 'pulse', 'turbine', 'wing'].each do |logo_id| %>
+              <label class="cursor-pointer group relative">
+                <%= f.radio_button :logo, logo_id, class: "peer sr-only", checked: (logo_id == 'apex') %>
+                
+                <div class="aspect-square flex items-center justify-center rounded-xl border border-zinc-700 bg-zinc-900/50 p-4 transition-all duration-300 peer-checked:border-blue-500 peer-checked:bg-blue-500/10 peer-checked:shadow-[0_0_20px_rgba(59,130,246,0.3)] hover:border-zinc-500">
+                  <div class="text-zinc-500 peer-checked:text-blue-400 group-hover:scale-110 transition-all duration-300 w-full h-full flex items-center justify-center">
+                    <%= render 'shared/team_logo', identifier: logo_id, svg_class: "w-full h-full" %>
+                  </div>
+                </div>
+                
+                <!-- Glow ring when checked -->
+                <div class="absolute inset-0 rounded-xl border-2 border-blue-500 opacity-0 peer-checked:opacity-100 peer-checked:animate-pulse pointer-events-none"></div>
+              </label>
+            <% end %>
+          </div>
         </div>
 
         <div class="pt-6 border-t border-zinc-800/50 flex justify-end gap-4">

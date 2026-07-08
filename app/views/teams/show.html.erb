@@ -1,8 +1,24 @@
 <div class="p-8 opacity-0 animate-fade-in-up">
-  <div class="mb-8">
-    <%= link_to "← Volver a Equipos", teams_path, class: "text-blue-400 hover:text-blue-300 text-sm font-bold uppercase tracking-wider transition-colors mb-6 inline-block" %>
-    <h1 class="text-5xl font-black uppercase italic text-transparent bg-clip-text bg-gradient-to-r from-blue-500 to-indigo-400"><%= @team.name %></h1>
-  </div>
+  <%= render 'shared/page_header', 
+        watermark_text: 'TEAM',
+        seal_text: 'WRC',
+        department_text: 'Constructor Profile',
+        subtitle: 'Official Manufacturer',
+        title: @team.name,
+        description: "Directorio oficial del equipo #{@team.name}.",
+        right_label_1: 'Total Assets',
+        right_value_1: (@team.drivers.count + @team.cars.count),
+        right_label_2: 'Registration',
+        right_value_2: 'VERIFIED',
+        right_badge_class: 'bg-blue-100 dark:bg-blue-900/30 text-blue-800 dark:text-blue-400 border-blue-300 dark:border-blue-800',
+        extra_right_content: capture { %>
+          <div class="flex items-center gap-4 py-2 text-blue-500 dark:text-blue-400">
+            <%= render 'shared/team_logo', identifier: @team.logo, svg_class: "w-12 h-12 filter drop-shadow-[0_0_10px_rgba(59,130,246,0.5)]" %>
+            <div class="flex-1 text-right">
+              <%= link_to "← Volver a Equipos", teams_path, class: "text-blue-400 hover:text-blue-300 text-xs font-mono uppercase tracking-widest transition-colors block" %>
+            </div>
+          </div>
+        <% } %>
 
   <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
     <!-- Drivers -->

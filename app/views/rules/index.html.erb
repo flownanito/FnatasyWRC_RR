@@ -1,53 +1,21 @@
 <div class="min-h-screen p-8 opacity-0 animate-fade-in-up">
   
-  <!-- FIA OFFICIAL HEADER -->
-  <div class="bg-white dark:bg-zinc-900/60 shadow-xl dark:shadow-none rounded-2xl mb-8 p-1 relative overflow-hidden group border border-zinc-300 dark:border-zinc-700">
-    <div class="border border-zinc-200 dark:border-zinc-800 p-8 m-1 relative h-full">
-      <div class="absolute inset-0 opacity-[0.02] pointer-events-none hidden dark:block" style="background-image: linear-gradient(#fff 1px, transparent 1px), linear-gradient(90deg, #fff 1px, transparent 1px); background-size: 20px 20px;"></div>
-      
-      <!-- Watermark -->
-      <div class="absolute right-10 top-1/2 -translate-y-1/2 opacity-5 pointer-events-none select-none">
-        <span class="text-9xl font-black italic tracking-tighter">FIA</span>
-      </div>
-      
-      <div class="relative z-10 flex flex-col md:flex-row justify-between items-start">
-        <div class="flex-1">
-          <div class="flex items-center gap-4 mb-4">
-            <!-- Official Seal Badge -->
-            <div class="w-12 h-12 rounded-full border-[3px] border-zinc-900 dark:border-zinc-100 flex items-center justify-center opacity-80">
-              <span class="text-[10px] font-black italic">FIA</span>
-            </div>
-            <div>
-              <span class="block text-[9px] font-mono text-zinc-500 uppercase tracking-[0.3em] mb-1">Fédération Internationale de l'Automobile</span>
-              <span class="block text-xs font-bold text-zinc-900 dark:text-zinc-300 uppercase tracking-widest">WRC Fantasy Championship Regulations</span>
-            </div>
-          </div>
-          
-          <h1 class="text-3xl font-black text-zinc-900 dark:text-white uppercase tracking-wider font-sans mt-6">
-            Reglamento Deportivo y Financiero Oficial
-          </h1>
-          <p class="mt-2 text-zinc-500 font-sans text-sm">Aprobado por el Consejo Mundial de los Deportes de Motor (WMSC) para la presente temporada.</p>
-        </div>
-
-        <div class="mt-6 md:mt-0 md:ml-8 flex flex-col items-end border-l-2 border-zinc-300 dark:border-zinc-700 pl-6">
-          <div class="text-right space-y-2">
-            <div>
-              <span class="block text-[8px] font-mono text-zinc-500 uppercase tracking-widest">Document No.</span>
-              <span class="block font-mono font-bold text-zinc-900 dark:text-white">WRC-F-2026-01/REV.A</span>
-            </div>
-            <div>
-              <span class="block text-[8px] font-mono text-zinc-500 uppercase tracking-widest">Published</span>
-              <span class="block font-mono font-bold text-zinc-900 dark:text-white">01.01.2026</span>
-            </div>
-            <div>
-              <span class="block text-[8px] font-mono text-zinc-500 uppercase tracking-widest">Status</span>
-              <span class="inline-block px-2 py-0.5 bg-emerald-100 dark:bg-emerald-900/30 text-emerald-800 dark:text-emerald-400 text-[10px] font-bold border border-emerald-300 dark:border-emerald-800 rounded">BINDING</span>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
+  <%= render 'shared/page_header', 
+        watermark_text: 'FIA',
+        seal_text: 'FIA',
+        department_text: "Fédération Internationale de l'Automobile",
+        subtitle: 'WRC Fantasy Championship Regulations',
+        title: 'Reglamento Deportivo y Financiero Oficial',
+        description: 'Aprobado por el Consejo Mundial de los Deportes de Motor (WMSC) para la presente temporada.',
+        right_label_1: 'Document No.',
+        right_value_1: 'WRC-F-2026-01/REV.A',
+        right_label_2: 'Status',
+        right_value_2: 'BINDING',
+        right_badge_class: 'bg-emerald-100 dark:bg-emerald-900/30 text-emerald-800 dark:text-emerald-400 border-emerald-300 dark:border-emerald-800',
+        extra_right_content: capture { %>
+          <span class="block text-[8px] font-mono text-zinc-500 uppercase tracking-widest mb-1">Published</span>
+          <span class="block font-mono font-bold text-zinc-900 dark:text-white">01.01.2026</span>
+        <% } %>
 
   <div class="grid grid-cols-1 xl:grid-cols-4 gap-8">
     

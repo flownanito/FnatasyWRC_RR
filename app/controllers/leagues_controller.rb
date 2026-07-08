@@ -6,15 +6,7 @@ class LeaguesController < ApplicationController
   end
 
   def show
-    @league = League.find(params[:id])
-    @members = @league.league_members.includes(:user).order(total_points: :desc)
-    @current_member = @league.league_members.find_by(user_id: current_user.id)
-    
-    @current_rally = Rally.ongoing.first || Rally.upcoming.first
-    if @current_rally
-      @lineup = @league.fantasy_lineups.find_by(user_id: current_user.id, rally_id: @current_rally.id)
-      @my_drivers = @league.league_drivers.where(user_id: current_user.id).map(&:driver)
-    end
+    redirect_to dashboard_league_path(params[:id])
   end
 
   def new
@@ -58,13 +50,17 @@ class LeaguesController < ApplicationController
       return redirect_to leagues_path, alert: "No perteneces a esta liga."
     end
     
+    @members = @league.league_members.includes(:user).order(total_points: :desc)
+    @current_member = @member
+    
     @current_rally = Rally.ongoing.first || Rally.upcoming.first
     if @current_rally
       @lineup = @league.fantasy_lineups.find_by(user_id: current_user.id, rally_id: @current_rally.id)
     end
     
-    @my_drivers = @league.league_drivers.where(user_id: current_user.id).includes(:driver)
-    @team_value = @my_drivers.sum { |ld| ld.driver.price }
+    league_drivers = @league.league_drivers.where(user_id: current_user.id).includes(:driver)
+    @my_drivers = league_drivers.map(&:driver)
+    @team_value = @my_drivers.sum(&:price)
     @total_budget = @member.budget
   end
 

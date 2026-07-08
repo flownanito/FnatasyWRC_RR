@@ -1,25 +1,38 @@
 <div class="min-h-screen p-8 opacity-0 animate-fade-in-up">
   
-  <!-- SETTINGS HEADER -->
-  <div class="bg-white dark:bg-zinc-900/40 shadow-xl dark:shadow-none rounded-2xl mb-8 p-8 relative overflow-hidden group border-l-4 border-l-red-600 border border-zinc-200 dark:border-zinc-800/50">
-    <div class="absolute inset-0 opacity-[0.03] pointer-events-none hidden dark:block" style="background-image: linear-gradient(#fff 1px, transparent 1px), linear-gradient(90deg, #fff 1px, transparent 1px); background-size: 20px 20px;"></div>
-    
-    <div class="relative z-10 flex flex-col md:flex-row justify-between items-start md:items-center">
-      <div>
-        <div class="flex items-center gap-3 mb-2">
-          <div class="w-2 h-2 rounded-full bg-red-500 animate-pulse shadow-[0_0_10px_rgba(239,68,68,1)]"></div>
-          <span class="text-[10px] font-mono text-zinc-500 uppercase tracking-[0.2em]">Preferencias</span>
-        </div>
-        <h1 class="text-3xl font-black text-zinc-900 dark:text-white uppercase tracking-wider">
-          <%= t('settings.title') %>
-        </h1>
-      </div>
-    </div>
-  </div>
+  <%= render 'shared/page_header', 
+        watermark_text: 'CONFIG',
+        seal_text: 'WRC',
+        department_text: 'User Preferences & Settings',
+        subtitle: 'System Configuration',
+        title: t('settings.title'),
+        description: 'Ajustes del sistema de telemetría y visualización del WRC Fantasy.',
+        right_label_1: 'Manager',
+        right_value_1: current_user.username || current_user.email.split('@').first,
+        right_label_2: 'Theme',
+        right_value_2: current_user.theme.upcase,
+        right_badge_class: 'bg-zinc-800 text-white border-zinc-700'
+  %>
 
   <div class="max-w-3xl bg-white dark:bg-zinc-900/40 shadow-xl dark:shadow-none rounded-2xl p-8 border border-zinc-200 dark:border-zinc-800/50 relative overflow-hidden">
     <%= form_with(model: current_user, url: settings_path, method: :patch, data: { turbo: false }, class: "relative z-10 space-y-8") do |form| %>
-      
+      <!-- Avatar -->
+      <div class="bg-zinc-50 dark:bg-zinc-950/80 p-6 rounded-xl border border-zinc-200 dark:border-zinc-800 focus-within:border-red-500/50 transition-colors group shadow-inner">
+        <%= form.label :avatar, "Foto de Perfil (Avatar)", class: "block text-[10px] font-mono text-zinc-500 uppercase tracking-[0.2em] mb-3 group-focus-within:text-red-600 dark:group-focus-within:text-red-400 transition-colors" %>
+        <div class="flex items-center gap-6">
+          <% if current_user.avatar.attached? %>
+            <%= image_tag current_user.avatar, class: "w-16 h-16 rounded-full border-2 border-red-500 object-cover" %>
+          <% else %>
+            <div class="w-16 h-16 rounded-full border-2 border-dashed border-zinc-400 dark:border-zinc-600 flex items-center justify-center text-zinc-400 dark:text-zinc-600">
+              <i class="fa-solid fa-user"></i>
+            </div>
+          <% end %>
+          <div class="flex-1">
+            <%= form.file_field :avatar, accept: 'image/*', class: "block w-full text-sm text-zinc-500 file:mr-4 file:py-2 file:px-4 file:rounded file:border-0 file:text-xs file:font-mono file:font-bold file:uppercase file:tracking-widest file:bg-red-50 file:text-red-700 hover:file:bg-red-100 dark:file:bg-red-500/10 dark:file:text-red-400 dark:hover:file:bg-red-500/20 transition-colors cursor-pointer" %>
+          </div>
+        </div>
+      </div>
+
       <!-- Language -->
       <div class="bg-zinc-50 dark:bg-zinc-950/80 p-6 rounded-xl border border-zinc-200 dark:border-zinc-800 focus-within:border-red-500/50 transition-colors group shadow-inner">
         <%= form.label :locale, t('settings.language_label'), class: "block text-[10px] font-mono text-zinc-500 uppercase tracking-[0.2em] mb-3 group-focus-within:text-red-600 dark:group-focus-within:text-red-400 transition-colors" %>
