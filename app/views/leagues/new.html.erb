@@ -1,0 +1,54 @@
+<div class="min-h-screen p-8 opacity-0 animate-fade-in-up">
+  <div class="glass-panel rounded-2xl max-w-2xl mx-auto p-8 relative overflow-hidden">
+    <div class="absolute inset-0 opacity-[0.03] pointer-events-none" style="background-image: linear-gradient(#fff 1px, transparent 1px), linear-gradient(90deg, #fff 1px, transparent 1px); background-size: 20px 20px;"></div>
+    
+    <div class="relative z-10">
+      <h1 class="text-3xl font-black uppercase text-white tracking-wider mb-2 border-b border-zinc-800/50 pb-4">
+        <span class="text-orange-500">INITIALIZE</span> AFFILIATION
+      </h1>
+      <p class="text-zinc-400 font-mono text-xs mb-8 uppercase tracking-widest">Create a private league to compete against other managers</p>
+
+      <%= form_with(model: @league, class: "space-y-6") do |f| %>
+        <% if @league.errors.any? %>
+          <div class="bg-red-950/50 border border-red-500/50 p-4 rounded-lg mb-6">
+            <p class="text-red-400 text-sm font-bold uppercase tracking-wider mb-2">System Error:</p>
+            <ul class="text-xs text-red-300 font-mono list-disc pl-5">
+              <% @league.errors.full_messages.each do |msg| %>
+                <li><%= msg %></li>
+              <% end %>
+            </ul>
+          </div>
+        <% end %>
+
+        <div>
+          <%= f.label :name, "AFFILIATION NAME", class: "block text-[10px] font-bold text-zinc-500 uppercase tracking-[0.2em] mb-2" %>
+          <%= f.text_field :name, class: "w-full bg-zinc-900/50 border border-zinc-700/50 rounded p-3 text-white font-mono focus:border-orange-500 focus:ring-1 focus:ring-orange-500 outline-none transition-colors", placeholder: "e.g. WRC Elite Club" %>
+        </div>
+
+        <div class="pt-6 border-t border-zinc-800/50 flex justify-end gap-4">
+          <%= link_to "ABORT", root_path, class: "px-6 py-3 border border-zinc-700 rounded text-xs font-bold font-mono uppercase tracking-widest text-zinc-400 hover:bg-zinc-800 hover:text-white transition-colors" %>
+          <%= f.submit "CREATE LEAGUE", class: "px-8 py-3 bg-orange-600 hover:bg-orange-500 text-white font-bold font-mono text-xs rounded uppercase tracking-[0.2em] shadow-[0_0_15px_rgba(234,88,12,0.4)] hover:shadow-[0_0_25px_rgba(234,88,12,0.6)] transition-all cursor-pointer" %>
+        </div>
+      <% end %>
+
+      <!-- JOIN FORM -->
+      <div class="mt-12 pt-12 border-t border-zinc-800/80">
+        <h2 class="text-2xl font-black uppercase text-white tracking-wider mb-2">
+          <span class="text-emerald-500">JOIN</span> EXISTING AFFILIATION
+        </h2>
+        <p class="text-zinc-400 font-mono text-xs mb-8 uppercase tracking-widest">Enter an access code to join a private league (Max 5 Players)</p>
+
+        <%= form_with(url: join_leagues_path, method: :post, class: "space-y-6") do |f| %>
+          <div>
+            <%= f.label :code, "ACCESS CODE", class: "block text-[10px] font-bold text-zinc-500 uppercase tracking-[0.2em] mb-2" %>
+            <%= f.text_field :code, class: "w-full bg-zinc-900/50 border border-zinc-700/50 rounded p-3 text-emerald-400 font-mono focus:border-emerald-500 focus:ring-1 focus:ring-emerald-500 outline-none transition-colors uppercase tracking-widest", placeholder: "e.g. A1B2C3D4" %>
+          </div>
+
+          <div class="pt-6 border-t border-zinc-800/50 flex justify-end gap-4">
+            <%= f.submit "JOIN LEAGUE", class: "px-8 py-3 bg-emerald-600 hover:bg-emerald-500 text-white font-bold font-mono text-xs rounded uppercase tracking-[0.2em] shadow-[0_0_15px_rgba(16,185,129,0.4)] hover:shadow-[0_0_25px_rgba(16,185,129,0.6)] transition-all cursor-pointer" %>
+          </div>
+        <% end %>
+      </div>
+    </div>
+  </div>
+</div>

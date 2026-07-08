@@ -1,0 +1,129 @@
+<div class="p-8 opacity-0 animate-fade-in-up">
+  <!-- LEADERBOARD / LEAGUE HEADER -->
+  <div class="mb-10 relative border-b border-zinc-200 dark:border-zinc-800/80 pb-6">
+    <div class="flex justify-between items-end">
+      <div>
+        <div class="flex items-center gap-3 mb-2">
+          <div class="w-1.5 h-6 bg-orange-600 rounded-sm"></div>
+          <h1 class="text-3xl font-light text-zinc-900 dark:text-zinc-100 tracking-wide uppercase">MERCADO DE <span class="font-bold">FICHAJES</span></h1>
+        </div>
+        <p class="text-zinc-500 text-xs uppercase tracking-[0.2em] ml-4"><%= @league.name %></p>
+      </div>
+      
+      <div class="bg-white dark:bg-zinc-900/50 border border-zinc-200 dark:border-zinc-800 rounded-lg px-6 py-3 flex items-center gap-4">
+        <div class="w-8 h-8 rounded-full bg-zinc-100 dark:bg-zinc-800 flex items-center justify-center">
+          <svg class="w-4 h-4 text-zinc-500 dark:text-zinc-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+        </div>
+        <div class="flex flex-col">
+          <span class="text-[9px] text-zinc-500 uppercase tracking-widest font-semibold mb-0.5">Tu Presupuesto</span>
+          <span class="text-xl font-mono text-zinc-900 dark:text-zinc-200">
+            <%= number_to_currency(@member.budget, precision: 0, unit: "€") %>
+          </span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="mb-8">
+    <%= link_to "← Volver a la Liga", league_path(@league), class: "text-zinc-500 dark:text-zinc-400 font-mono text-sm uppercase tracking-widest hover:text-zinc-900 dark:hover:text-white transition-colors" %>
+  </div>
+
+  <div class="flex items-center gap-3 mb-6 border-b border-zinc-200 dark:border-zinc-800/80 pb-3">
+    <svg class="w-4 h-4 text-zinc-500" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"></path></svg>
+    <h2 class="text-xs font-semibold text-zinc-600 dark:text-zinc-400 tracking-[0.15em] uppercase">Pilotos Disponibles</h2>
+  </div>
+
+  <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 mb-12">
+    <% @league_drivers.each_with_index do |ld, index| %>
+      <div class="relative rounded-2xl overflow-hidden hover:scale-105 hover:z-10 transition-all duration-300 group opacity-0 animate-fade-in-up flex flex-col shadow-xl dark:shadow-[0_0_15px_rgba(0,0,0,0.5)] border-2 <%= ld.user_id ? 'border-red-500/30' : 'border-transparent hover:border-emerald-500/50' %>" style="animation-delay: <%= (index * 50) % 500 %>ms; background: linear-gradient(135deg, <%= current_user.theme == 'light' ? '#ffffff 0%, #f4f4f5 100%' : '#1a1a1a 0%, #2a2a2a 100%' %>); min-height: 450px;">
+        
+        <!-- Animated Background Glow -->
+        <div class="absolute inset-0 bg-gradient-to-tr <%= ld.user_id ? 'from-red-500/10 via-transparent to-red-500/5' : 'from-emerald-500/10 via-transparent to-blue-500/10' %> opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none"></div>
+
+        <% if ld.user_id.present? %>
+          <div class="absolute top-4 left-4 bg-red-100 dark:bg-red-500/20 text-red-700 dark:text-red-400 text-[8px] font-bold px-2 py-1 rounded uppercase tracking-wider z-30 border border-red-500/30">
+            DUEÑO: <%= ld.user.username || ld.user.email.split('@').first %>
+          </div>
+        <% else %>
+          <div class="absolute top-4 left-4 bg-emerald-100 dark:bg-emerald-500/20 text-emerald-700 dark:text-emerald-400 text-[8px] font-bold px-2 py-1 rounded uppercase tracking-wider z-30 border border-emerald-500/30">
+            AGENTE LIBRE
+          </div>
+        <% end %>
+
+        <div class="p-4 flex-1 flex flex-col relative z-10 pt-10">
+          
+          <!-- Top Section: Rating & Logo -->
+          <div class="flex justify-between items-start">
+            <div class="flex flex-col items-center">
+              <span class="text-3xl font-black text-zinc-900 dark:text-white drop-shadow-sm dark:drop-shadow-[0_2px_4px_rgba(0,0,0,0.8)] leading-none"><%= ld.driver.overall_rating || 85 %></span>
+              <span class="text-[9px] font-bold <%= ld.user_id ? 'text-red-600 dark:text-red-400' : 'text-yellow-600 dark:text-yellow-500' %> uppercase tracking-widest mt-1"><%= ld.driver.category %></span>
+            </div>
+            
+            <div class="flex flex-col items-end gap-2">
+              <% if ld.driver.team&.logo.present? %>
+                <div class="w-8 h-8 flex items-center justify-center">
+                  <img src="<%= ld.driver.team.logo %>" class="max-w-full max-h-full object-contain filter drop-shadow-sm dark:drop-shadow-md opacity-80 group-hover:opacity-100 transition-opacity" alt="Team">
+                </div>
+              <% end %>
+            </div>
+          </div>
+
+          <!-- Driver Image Cutout -->
+          <div class="mt-2 flex-1 flex items-center justify-center min-h-[140px] relative overflow-hidden rounded-lg mx-2">
+            <div class="absolute inset-0 bg-gradient-to-t from-zinc-100 dark:from-[#1a1a1a] via-transparent to-transparent z-20 pointer-events-none"></div>
+            <% if ld.driver.image_url.present? %>
+              <%= image_tag ld.driver.image_url, class: "w-full h-[160px] object-cover object-center opacity-90 group-hover:opacity-100 group-hover:scale-110 transition-all duration-500 relative z-10", alt: ld.driver.name %>
+            <% else %>
+              <div class="text-6xl text-zinc-200 dark:text-zinc-800 font-black opacity-50 drop-shadow-lg relative z-10">?</div>
+            <% end %>
+          </div>
+
+          <!-- Name Divider -->
+          <div class="w-full h-px bg-gradient-to-r from-transparent via-zinc-300 dark:via-zinc-500/30 to-transparent my-3"></div>
+          
+          <h3 class="font-black text-lg text-center text-zinc-900 dark:text-white uppercase tracking-wider truncate drop-shadow-sm dark:drop-shadow-md mb-3"><%= ld.driver.name %></h3>
+          
+          <!-- FIFA Stats Grid -->
+          <div class="grid grid-cols-3 gap-2 text-center mb-4">
+            <div class="flex flex-col">
+              <span class="text-lg font-black text-zinc-900 dark:text-white"><%= ld.driver.pace || 80 %></span>
+              <span class="text-[9px] text-zinc-500 font-bold uppercase">PAC</span>
+            </div>
+            <div class="flex flex-col border-x border-zinc-200 dark:border-zinc-800">
+              <span class="text-lg font-black text-zinc-900 dark:text-white"><%= ld.driver.consistency || 80 %></span>
+              <span class="text-[9px] text-zinc-500 font-bold uppercase">CON</span>
+            </div>
+            <div class="flex flex-col">
+              <span class="text-lg font-black text-zinc-900 dark:text-white"><%= ld.driver.experience || 80 %></span>
+              <span class="text-[9px] text-zinc-500 font-bold uppercase">EXP</span>
+            </div>
+          </div>
+          
+          <!-- Market Actions -->
+          <div class="mt-auto pt-3 border-t border-zinc-200 dark:border-zinc-800/80 flex flex-col gap-2 -mx-4 -mb-4 px-4 pb-4 bg-zinc-50 dark:bg-transparent">
+            <% if ld.user_id.nil? %>
+              <%= button_to buy_league_league_driver_path(@league, ld), method: :post, form: { data: { turbo_confirm: "¿Fichar por #{number_to_currency(ld.driver.price, unit: '€', precision: 0)}?" } }, class: "w-full py-3 bg-emerald-600/90 hover:bg-emerald-500 text-white font-bold font-mono text-[10px] rounded uppercase tracking-[0.2em] transition-colors shadow-[0_0_10px_rgba(16,185,129,0.3)] hover:shadow-[0_0_20px_rgba(16,185,129,0.5)]" do %>
+                FICHAR (<%= number_to_currency(ld.driver.price, unit: '€', precision: 0) %>)
+              <% end %>
+            <% elsif ld.user_id != current_user.id %>
+              <div class="flex justify-between items-center px-1 mb-1">
+                <span class="text-[9px] text-zinc-500 uppercase font-bold tracking-widest">Cláusula de rescisión</span>
+              </div>
+              <%= button_to clausulazo_league_league_driver_path(@league, ld), method: :post, form: { data: { turbo_confirm: "¿Pagar el clausulazo de #{number_to_currency(ld.release_clause, unit: '€', precision: 0)}?" } }, class: "w-full py-3 bg-red-600/90 hover:bg-red-500 text-white font-bold font-mono text-[10px] rounded uppercase tracking-[0.2em] transition-colors shadow-[0_0_10px_rgba(239,68,68,0.3)] hover:shadow-[0_0_20px_rgba(239,68,68,0.5)]" do %>
+                CLAUSULAZO (<%= number_to_currency(ld.release_clause, unit: '€', precision: 0) %>)
+              <% end %>
+            <% else %>
+              <div class="flex justify-between items-center px-1 mb-1">
+                <span class="text-[9px] text-zinc-500 uppercase font-bold tracking-widest">Cláusula de rescisión</span>
+                <span class="text-[10px] text-red-600 dark:text-red-400 font-mono font-bold"><%= number_to_currency(ld.release_clause, unit: '€', precision: 0) %></span>
+              </div>
+              <%= button_to sell_league_league_driver_path(@league, ld), method: :post, form: { data: { turbo_confirm: "¿Vender por #{number_to_currency(ld.driver.price * 0.8, unit: '€', precision: 0)}? (Pierdes un 20% por el contrato temporal)" } }, class: "w-full py-3 bg-orange-600/90 hover:bg-orange-500 text-white font-bold font-mono text-[10px] rounded uppercase tracking-[0.2em] transition-colors shadow-[0_0_10px_rgba(234,88,12,0.3)] hover:shadow-[0_0_20px_rgba(234,88,12,0.5)]" do %>
+                VENDER (<%= number_to_currency(ld.driver.price * 0.8, unit: '€', precision: 0) %>)
+              <% end %>
+            <% end %>
+          </div>
+        </div>
+      </div>
+    <% end %>
+  </div>
+</div>

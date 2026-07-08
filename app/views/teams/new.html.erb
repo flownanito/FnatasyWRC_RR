@@ -1,0 +1,41 @@
+<div class="min-h-screen p-8 opacity-0 animate-fade-in-up">
+  <div class="glass-panel rounded-2xl max-w-2xl mx-auto p-8 relative overflow-hidden">
+    <div class="absolute inset-0 opacity-[0.03] pointer-events-none" style="background-image: linear-gradient(#fff 1px, transparent 1px), linear-gradient(90deg, #fff 1px, transparent 1px); background-size: 20px 20px;"></div>
+    
+    <div class="relative z-10">
+      <h1 class="text-3xl font-black uppercase text-white tracking-wider mb-2 border-b border-zinc-800 pb-4">
+        <span class="text-blue-500">CREAR</span> ESCUDERÍA
+      </h1>
+      <p class="text-zinc-400 font-mono text-xs mb-8 uppercase tracking-widest">Inscribe a tu equipo en la comunidad WRC Fantasy</p>
+
+      <%= form_with(model: @team, class: "space-y-6") do |f| %>
+        <% if @team.errors.any? %>
+          <div class="bg-red-950/50 border border-red-500/50 p-4 rounded-lg mb-6">
+            <p class="text-red-400 text-sm font-bold uppercase tracking-wider mb-2">Errores de validación:</p>
+            <ul class="text-xs text-red-300 font-mono list-disc pl-5">
+              <% @team.errors.full_messages.each do |msg| %>
+                <li><%= msg %></li>
+              <% end %>
+            </ul>
+          </div>
+        <% end %>
+
+        <div>
+          <%= f.label :name, "NOMBRE DE LA ESCUDERÍA", class: "block text-xs font-bold text-zinc-500 uppercase tracking-widest mb-2" %>
+          <%= f.text_field :name, class: "w-full bg-zinc-900 border border-zinc-700 rounded-lg p-3 text-white font-mono focus:border-blue-500 focus:ring-1 focus:ring-blue-500 outline-none transition-colors", placeholder: "Ej. Toyota Gazoo Racing" %>
+        </div>
+
+        <div>
+          <%= f.label :logo, "URL DEL LOGOTIPO", class: "block text-xs font-bold text-zinc-500 uppercase tracking-widest mb-2" %>
+          <%= f.text_field :logo, class: "w-full bg-zinc-900 border border-zinc-700 rounded-lg p-3 text-white font-mono focus:border-blue-500 focus:ring-1 focus:ring-blue-500 outline-none transition-colors", placeholder: "https://ejemplo.com/logo.svg" %>
+          <p class="text-[10px] text-zinc-600 font-mono mt-2 uppercase tracking-widest">Enlace a imagen SVG, PNG o JPG transparente</p>
+        </div>
+
+        <div class="pt-6 border-t border-zinc-800/50 flex justify-end gap-4">
+          <%= link_to "CANCELAR", teams_path, class: "px-6 py-3 border border-zinc-700 rounded-lg text-xs font-bold font-mono uppercase tracking-widest text-zinc-400 hover:bg-zinc-800 hover:text-white transition-colors" %>
+          <%= f.submit "INSCRIBIR EQUIPO", class: "px-8 py-3 bg-blue-600 hover:bg-blue-500 text-white font-bold font-mono text-xs rounded-lg uppercase tracking-widest shadow-[0_0_15px_rgba(59,130,246,0.4)] hover:shadow-[0_0_25px_rgba(59,130,246,0.6)] transition-all hover:-translate-y-0.5 cursor-pointer" %>
+        </div>
+      <% end %>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,78 @@
+<div class="flex-1 w-full h-screen grid grid-cols-1 lg:grid-cols-2 bg-zinc-950 overflow-hidden">
+  
+  <!-- Left Side: Cinematic Background -->
+  <div class="relative hidden lg:block h-full w-full bg-zinc-900 overflow-hidden">
+    <!-- Rally image from wikimedia commons or unsplash -->
+    <img src="<%= asset_path('rally_mud_drift.png') %>" 
+         alt="Rally Car" 
+         class="absolute inset-0 w-full h-full object-cover opacity-60 mix-blend-luminosity hover:mix-blend-normal hover:opacity-80 transition-all duration-1000 animate-slide-in-right">
+    
+    <!-- Gradient Overlay to blend with background -->
+    <div class="absolute inset-0 bg-gradient-to-r from-zinc-950/20 via-zinc-950/40 to-zinc-950"></div>
+    <div class="absolute inset-0 bg-gradient-to-t from-zinc-950 via-transparent to-transparent"></div>
+
+    <!-- Decorative Elements -->
+    <div class="absolute bottom-20 left-12 max-w-lg opacity-0 animate-fade-in-up delay-300">
+      <h2 class="text-5xl font-black italic text-transparent bg-clip-text bg-gradient-to-r from-white to-zinc-400 mb-4">
+        Siente la Grava.<br>Domina el Asfalto.
+      </h2>
+      <p class="text-zinc-400 text-lg border-l-2 border-red-500 pl-4">El Fantasy oficial del WRC. Ficha a los mejores pilotos y compite contra el mundo.</p>
+    </div>
+  </div>
+
+  <!-- Right Side: Login Form -->
+  <div class="flex flex-col items-center justify-center p-8 lg:p-24 relative">
+    
+    <!-- Ambient Glow behind form -->
+    <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] bg-red-600/10 blur-[100px] rounded-full pointer-events-none"></div>
+
+    <div class="w-full max-w-md relative z-10 opacity-0 animate-fade-in-up">
+      <div class="mb-10 text-center">
+        <h1 class="text-5xl font-black italic text-transparent bg-clip-text bg-gradient-to-r from-red-500 to-orange-400 tracking-tighter mb-2">
+          WRC FANTASY
+        </h1>
+        <p class="text-zinc-400 font-medium">Bienvenido al parque de asistencia.</p>
+      </div>
+
+      <div class="glass-panel p-8 rounded-3xl">
+        <%= form_for(resource, as: resource_name, url: session_path(resource_name), html: { class: "space-y-6" }) do |f| %>
+          
+          <div class="space-y-1 group relative">
+            <%= f.label :email, "Correo Electrónico", class: "text-xs font-bold uppercase tracking-wider text-zinc-400 ml-1 transition-colors group-focus-within:text-red-400" %>
+            <div class="relative">
+              <%= f.email_field :email, autofocus: true, autocomplete: "email", 
+                  class: "w-full bg-zinc-950/50 border border-zinc-800 text-white rounded-xl px-4 py-3 focus:outline-none focus:ring-2 focus:ring-red-500/50 focus:border-red-500 transition-all shadow-inner",
+                  placeholder: "piloto@wrc.com" %>
+            </div>
+          </div>
+
+          <div class="space-y-1 group relative opacity-0 animate-fade-in-up delay-100">
+            <%= f.label :password, "Contraseña", class: "text-xs font-bold uppercase tracking-wider text-zinc-400 ml-1 transition-colors group-focus-within:text-red-400" %>
+            <div class="relative">
+              <%= f.password_field :password, autocomplete: "current-password", 
+                  class: "w-full bg-zinc-950/50 border border-zinc-800 text-white rounded-xl px-4 py-3 focus:outline-none focus:ring-2 focus:ring-red-500/50 focus:border-red-500 transition-all shadow-inner",
+                  placeholder: "••••••••" %>
+            </div>
+          </div>
+
+          <% if devise_mapping.rememberable? %>
+            <div class="flex items-center gap-3 opacity-0 animate-fade-in-up delay-200">
+              <%= f.check_box :remember_me, class: "w-5 h-5 rounded bg-zinc-900 border-zinc-700 text-red-500 focus:ring-red-500 focus:ring-offset-zinc-900 transition-colors cursor-pointer" %>
+              <%= f.label :remember_me, "Mantener sesión iniciada", class: "text-sm text-zinc-400 cursor-pointer select-none hover:text-white transition-colors" %>
+            </div>
+          <% end %>
+
+          <div class="pt-2 opacity-0 animate-fade-in-up delay-300">
+            <%= f.submit "Arrancar Motor", 
+                class: "w-full py-4 rounded-xl bg-gradient-to-r from-red-600 to-orange-500 text-white font-bold text-lg shadow-[0_0_20px_rgba(220,38,38,0.4)] hover:shadow-[0_0_30px_rgba(220,38,38,0.6)] hover:scale-[1.02] active:scale-[0.98] transition-all cursor-pointer uppercase tracking-wider" %>
+          </div>
+        <% end %>
+
+        <div class="mt-8 text-center opacity-0 animate-fade-in-up delay-300">
+          <p class="text-zinc-500 text-sm">¿No tienes equipo todavía?</p>
+          <%= link_to "Inscríbete ahora", new_registration_path(resource_name), class: "text-red-400 font-bold hover:text-red-300 mt-1 inline-block transition-colors underline decoration-red-500/30 hover:decoration-red-400 underline-offset-4" %>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,89 @@
+<div class="flex-1 w-full min-h-screen grid grid-cols-1 lg:grid-cols-2 bg-zinc-950 overflow-hidden">
+  
+  <!-- Right Side: Cinematic Background (Swapped side for variety) -->
+  <div class="relative hidden lg:block h-full w-full bg-zinc-900 overflow-hidden order-2">
+    <!-- Rally image (different from login, maybe mud or jump) -->
+    <img src="<%= asset_path('rally_snow_jump.png') %>" 
+         alt="Rally Jump" 
+         class="absolute inset-0 w-full h-full object-cover opacity-50 mix-blend-luminosity hover:mix-blend-normal hover:opacity-80 transition-all duration-1000 animate-slide-in-right">
+    
+    <div class="absolute inset-0 bg-gradient-to-l from-zinc-950/20 via-zinc-950/40 to-zinc-950"></div>
+    <div class="absolute inset-0 bg-gradient-to-t from-zinc-950 via-transparent to-transparent"></div>
+
+    <div class="absolute bottom-20 right-12 max-w-lg opacity-0 animate-fade-in-up delay-300 text-right">
+      <h2 class="text-5xl font-black italic text-transparent bg-clip-text bg-gradient-to-l from-white to-zinc-400 mb-4">
+        Crea tu Leyenda.
+      </h2>
+      <p class="text-zinc-400 text-lg border-r-2 border-red-500 pr-4">100 Millones de presupuesto. Las decisiones están en tus manos.</p>
+    </div>
+  </div>
+
+  <!-- Left Side: Registration Form -->
+  <div class="flex flex-col items-center justify-center p-8 lg:p-24 relative order-1">
+    
+    <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] bg-orange-600/10 blur-[100px] rounded-full pointer-events-none"></div>
+
+    <div class="w-full max-w-md relative z-10 opacity-0 animate-fade-in-up">
+      <div class="mb-10 text-center">
+        <h1 class="text-5xl font-black italic text-transparent bg-clip-text bg-gradient-to-r from-red-500 to-orange-400 tracking-tighter mb-2">
+          NUEVO PILOTO
+        </h1>
+        <p class="text-zinc-400 font-medium">Inscripción oficial al campeonato.</p>
+      </div>
+
+      <div class="glass-panel p-8 rounded-3xl">
+        <%= form_for(resource, as: resource_name, url: registration_path(resource_name), html: { class: "space-y-5" }) do |f| %>
+          
+          <% if resource.errors.any? %>
+            <div class="bg-red-500/10 border border-red-500/30 text-red-400 text-sm p-4 rounded-xl mb-4">
+              <%= render "devise/shared/error_messages", resource: resource %>
+            </div>
+          <% end %>
+
+          <div class="space-y-1 group relative">
+            <%= f.label :email, "Correo Electrónico", class: "text-xs font-bold uppercase tracking-wider text-zinc-400 ml-1 transition-colors group-focus-within:text-orange-400" %>
+            <%= f.email_field :email, autofocus: true, autocomplete: "email", 
+                class: "w-full bg-zinc-950/50 border border-zinc-800 text-white rounded-xl px-4 py-3 focus:outline-none focus:ring-2 focus:ring-orange-500/50 focus:border-orange-500 transition-all shadow-inner",
+                placeholder: "piloto@wrc.com" %>
+          </div>
+
+          <div class="space-y-1 group relative opacity-0 animate-fade-in-up delay-100">
+            <%= f.label :username, "Nombre de Usuario (Opcional)", class: "text-xs font-bold uppercase tracking-wider text-zinc-400 ml-1 transition-colors group-focus-within:text-orange-400" %>
+            <%= f.text_field :username, 
+                class: "w-full bg-zinc-950/50 border border-zinc-800 text-white rounded-xl px-4 py-3 focus:outline-none focus:ring-2 focus:ring-orange-500/50 focus:border-orange-500 transition-all shadow-inner",
+                placeholder: "RallyMaster99" %>
+          </div>
+
+          <div class="space-y-1 group relative opacity-0 animate-fade-in-up delay-200">
+            <div class="flex justify-between items-end">
+              <%= f.label :password, "Contraseña", class: "text-xs font-bold uppercase tracking-wider text-zinc-400 ml-1 transition-colors group-focus-within:text-orange-400" %>
+              <% if @minimum_password_length %>
+                <span class="text-[10px] text-zinc-500 font-mono"><%= @minimum_password_length %> min chars</span>
+              <% end %>
+            </div>
+            <%= f.password_field :password, autocomplete: "new-password", 
+                class: "w-full bg-zinc-950/50 border border-zinc-800 text-white rounded-xl px-4 py-3 focus:outline-none focus:ring-2 focus:ring-orange-500/50 focus:border-orange-500 transition-all shadow-inner",
+                placeholder: "••••••••" %>
+          </div>
+
+          <div class="space-y-1 group relative opacity-0 animate-fade-in-up delay-300">
+            <%= f.label :password_confirmation, "Confirmar Contraseña", class: "text-xs font-bold uppercase tracking-wider text-zinc-400 ml-1 transition-colors group-focus-within:text-orange-400" %>
+            <%= f.password_field :password_confirmation, autocomplete: "new-password", 
+                class: "w-full bg-zinc-950/50 border border-zinc-800 text-white rounded-xl px-4 py-3 focus:outline-none focus:ring-2 focus:ring-orange-500/50 focus:border-orange-500 transition-all shadow-inner",
+                placeholder: "••••••••" %>
+          </div>
+
+          <div class="pt-4 opacity-0 animate-fade-in-up delay-300">
+            <%= f.submit "Completar Inscripción", 
+                class: "w-full py-4 rounded-xl bg-gradient-to-r from-orange-600 to-red-500 text-white font-bold text-lg shadow-[0_0_20px_rgba(234,88,12,0.4)] hover:shadow-[0_0_30px_rgba(234,88,12,0.6)] hover:scale-[1.02] active:scale-[0.98] transition-all cursor-pointer uppercase tracking-wider" %>
+          </div>
+        <% end %>
+
+        <div class="mt-8 text-center opacity-0 animate-fade-in-up delay-300">
+          <p class="text-zinc-500 text-sm">¿Ya estás inscrito?</p>
+          <%= link_to "Ir al Parque Cerrado (Login)", new_session_path(resource_name), class: "text-orange-400 font-bold hover:text-orange-300 mt-1 inline-block transition-colors underline decoration-orange-500/30 hover:decoration-orange-400 underline-offset-4" %>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

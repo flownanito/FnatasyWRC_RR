@@ -1,0 +1,34 @@
+<div class="p-8 opacity-0 animate-fade-in-up">
+  <!-- HEADER -->
+  <div class="mb-10 relative border-b border-zinc-200 dark:border-zinc-800/80 pb-6">
+    <div class="flex justify-between items-end">
+      <div>
+        <div class="flex items-center gap-3 mb-2">
+          <div class="w-1.5 h-6 bg-red-600 rounded-sm"></div>
+          <h1 class="text-3xl font-light text-zinc-900 dark:text-zinc-100 tracking-wide uppercase">SETUP DE <span class="font-bold">EQUIPO</span></h1>
+        </div>
+        <p class="text-zinc-500 text-xs uppercase tracking-[0.2em] ml-4 flex items-center gap-2">
+          Rally: <span class="text-red-600 dark:text-red-400 font-bold"><%= @rally.name %></span>
+        </p>
+      </div>
+      
+      <div class="bg-white dark:bg-zinc-900/50 border border-zinc-200 dark:border-zinc-800 rounded-lg px-6 py-3 flex items-center gap-4">
+        <div class="w-8 h-8 rounded-full bg-zinc-100 dark:bg-zinc-800 flex items-center justify-center">
+          <svg class="w-4 h-4 text-emerald-600 dark:text-emerald-500" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+        </div>
+        <div class="flex flex-col">
+          <span class="text-[9px] text-zinc-500 uppercase tracking-widest font-semibold mb-0.5">FONDOS LIGA</span>
+          <span class="text-xl font-mono text-emerald-600 dark:text-emerald-400">
+            <%= number_to_currency(@member.budget, unit: "€", precision: 0) %>
+          </span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="mb-4">
+    <%= link_to "← VOLVER A LA LIGA", league_path(@league), class: "text-zinc-500 dark:text-zinc-400 font-mono text-sm uppercase tracking-widest hover:text-zinc-900 dark:hover:text-white transition-colors" %>
+  </div>
+
+  <%= render "form" %>
+</div>
