@@ -110,6 +110,155 @@
           </div>
         </section>
       <% end %>
+
+      <!-- PANEL DE MÉTRICAS DEL JEFE DE EQUIPO -->
+      <section class="opacity-0 animate-fade-in-up delay-300">
+        <div class="flex justify-between items-end mb-4 px-2">
+          <h2 class="text-[10px] font-mono font-bold text-zinc-500 uppercase tracking-widest">Team Performance Metrics</h2>
+        </div>
+        
+        <div class="bg-white dark:bg-zinc-900/40 shadow-xl dark:shadow-none rounded-2xl p-6 relative overflow-hidden border border-zinc-200 dark:border-zinc-800/50">
+          <% 
+            # Real Metrics Calculations
+            
+            # 1. League Rank & Leader Gap
+            sorted_members = @members.to_a.sort_by { |m| -(m.total_points || 0) }
+            rank = sorted_members.index(@current_member) ? sorted_members.index(@current_member) + 1 : 0
+            leader_points = sorted_members.first&.total_points || 0
+            my_points = @current_member.total_points || 0
+            gap_to_leader = leader_points - my_points
+
+            # 2. Team Value Calculation
+            drivers_value = @my_drivers.sum { |d| d.price || 0 }
+            car_value = @lineup&.car&.price || 0
+            engineer_value = @lineup&.engineer&.price || 0
+            team_value = drivers_value + car_value + engineer_value
+
+            # 3. Budget
+            budget = @current_member.budget || 0
+
+            # Autoestima Funcional (basada en posición en liga)
+            if rank == 1
+              esteem_status = "LÍDERES (INQUEBRANTABLE)"
+              esteem_color = "text-emerald-500"
+              esteem_bg = "bg-emerald-500"
+            elsif gap_to_leader <= 25
+              esteem_status = "A LA CAZA (MOTIVADOS)"
+              esteem_color = "text-blue-500"
+              esteem_bg = "bg-blue-500"
+            else
+              esteem_status = "BAJO PRESIÓN"
+              esteem_color = "text-red-500"
+              esteem_bg = "bg-red-500"
+            end
+
+            # Estilo / Enfoque Funcional
+            if gap_to_leader > 50
+              style = "AGRESIVO (ARRIESGAR)"
+            elsif rank == 1
+              style = "CONSERVADOR (MANTENER)"
+            else
+              style = "EQUILIBRADO"
+            end
+
+            # Moral / Utilización de Recursos
+            total_assets = team_value + budget
+            moral_val = total_assets > 0 ? ((team_value.to_f / total_assets) * 100).to_i : 0
+            moral_val = [moral_val, 100].min
+
+            # Trend based on last lineup
+            last_score = @lineup&.total_score || 0
+            trend_positive = last_score > 0
+          %>
+
+          <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-4">
+            
+            <!-- Posición Actual -->
+            <div class="bg-zinc-50 dark:bg-zinc-950/60 border border-zinc-200 dark:border-zinc-800/50 rounded-xl p-4 flex flex-col justify-center items-center text-center group hover:border-zinc-400 dark:hover:border-zinc-600 transition-colors">
+              <span class="text-[10px] font-mono text-zinc-500 uppercase tracking-[0.2em] mb-2">Posición Liga</span>
+              <span class="text-xl font-black text-zinc-900 dark:text-white uppercase tracking-wider">#<%= rank %></span>
+            </div>
+
+            <!-- Gap to Leader -->
+            <div class="bg-zinc-50 dark:bg-zinc-950/60 border border-zinc-200 dark:border-zinc-800/50 rounded-xl p-4 flex flex-col justify-center items-center text-center group hover:border-zinc-400 dark:hover:border-zinc-600 transition-colors">
+              <span class="text-[10px] font-mono text-zinc-500 uppercase tracking-[0.2em] mb-2">Distancia al Líder</span>
+              <span class="text-xl font-black text-zinc-900 dark:text-zinc-300 uppercase tracking-wide">-<%= gap_to_leader %> PTS</span>
+            </div>
+
+            <!-- Autoestima -->
+            <div class="bg-zinc-50 dark:bg-zinc-950/60 border border-zinc-200 dark:border-zinc-800/50 rounded-xl p-4 flex flex-col justify-center items-center text-center group hover:border-zinc-400 dark:hover:border-zinc-600 transition-colors">
+              <span class="text-[10px] font-mono text-zinc-500 uppercase tracking-[0.2em] mb-2">Autoestima</span>
+              <span class="text-xs font-black <%= esteem_color %> uppercase tracking-wider"><%= esteem_status %></span>
+            </div>
+
+            <!-- Estilo / Enfoque -->
+            <div class="bg-zinc-50 dark:bg-zinc-950/60 border border-zinc-200 dark:border-zinc-800/50 rounded-xl p-4 flex flex-col justify-center items-center text-center group hover:border-zinc-400 dark:hover:border-zinc-600 transition-colors">
+              <span class="text-[10px] font-mono text-zinc-500 uppercase tracking-[0.2em] mb-2">Enfoque Actual</span>
+              <span class="text-xs font-bold text-zinc-900 dark:text-zinc-300 uppercase tracking-wide"><%= style %></span>
+            </div>
+          </div>
+
+          <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+            
+            <!-- Valor Total del Equipo -->
+            <div class="bg-zinc-50 dark:bg-zinc-950/60 border border-zinc-200 dark:border-zinc-800/50 rounded-xl p-4 flex flex-col justify-center items-center text-center group hover:border-zinc-400 dark:hover:border-zinc-600 transition-colors">
+              <span class="text-[10px] font-mono text-zinc-500 uppercase tracking-[0.2em] mb-2">Valor Fichajes</span>
+              <span class="text-lg font-black text-blue-500 font-mono"><%= number_to_currency(team_value, unit: "€", precision: 0) %></span>
+            </div>
+
+            <!-- Moral / Inversión de Recursos -->
+            <div class="bg-zinc-50 dark:bg-zinc-950/60 border border-zinc-200 dark:border-zinc-800/50 rounded-xl p-4 flex flex-col justify-center items-center text-center group hover:border-zinc-400 dark:hover:border-zinc-600 transition-colors">
+              <div class="flex justify-between w-full mb-2">
+                <span class="text-[10px] font-mono text-zinc-500 uppercase tracking-[0.2em]">Recursos Invertidos</span>
+                <span class="text-[10px] text-zinc-400 font-mono"><%= moral_val %>%</span>
+              </div>
+              <div class="w-full bg-zinc-200 dark:bg-zinc-800 rounded-full h-1.5 mt-1 overflow-hidden">
+                <div class="<%= esteem_bg %> h-1.5 rounded-full transition-all duration-1000" style="width: <%= moral_val %>%"></div>
+              </div>
+            </div>
+
+            <!-- Tendencia de Último Evento -->
+            <div class="bg-zinc-50 dark:bg-zinc-950/60 border border-zinc-200 dark:border-zinc-800/50 rounded-xl p-4 flex flex-col justify-center items-center text-center group hover:border-zinc-400 dark:hover:border-zinc-600 transition-colors">
+              <span class="text-[10px] font-mono text-zinc-500 uppercase tracking-[0.2em] mb-2">Último Desempeño</span>
+              <% if trend_positive %>
+                <div class="flex items-center gap-1 text-emerald-500">
+                  <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"></path></svg>
+                  <span class="text-xs font-bold font-mono">+<%= last_score %> PTS</span>
+                </div>
+              <% else %>
+                <div class="flex items-center gap-1 text-zinc-500">
+                  <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 12h14"></path></svg>
+                  <span class="text-xs font-bold font-mono">0 PTS</span>
+                </div>
+              <% end %>
+            </div>
+
+          </div>
+
+          <!-- Gráfica de Progreso de Liga Simulado con Datos Reales -->
+          <div class="mt-6 pt-6 border-t border-zinc-200 dark:border-zinc-800/50">
+            <span class="text-[10px] font-mono text-zinc-500 uppercase tracking-[0.2em] mb-4 block">Evolución Puntos Totales (Tú vs Líder)</span>
+            <div class="flex flex-col gap-3 w-full px-2">
+              <!-- Tú -->
+              <div class="flex items-center gap-3">
+                <span class="text-[10px] text-zinc-400 font-mono w-12">TÚ</span>
+                <div class="flex-1 bg-zinc-100 dark:bg-zinc-800/50 rounded-sm relative h-4">
+                  <div class="absolute top-0 left-0 h-full <%= esteem_bg %> rounded-sm transition-all duration-500" style="width: <%= leader_points > 0 ? (my_points.to_f / leader_points * 100).to_i : 0 %>%"></div>
+                </div>
+                <span class="text-[10px] text-white font-mono font-bold"><%= my_points %></span>
+              </div>
+              <!-- Líder -->
+              <div class="flex items-center gap-3">
+                <span class="text-[10px] text-zinc-400 font-mono w-12">LÍDER</span>
+                <div class="flex-1 bg-zinc-100 dark:bg-zinc-800/50 rounded-sm relative h-4">
+                  <div class="absolute top-0 left-0 h-full bg-zinc-400 rounded-sm transition-all duration-500" style="width: 100%"></div>
+                </div>
+                <span class="text-[10px] text-white font-mono font-bold"><%= leader_points %></span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
     </div>
 
     <!-- RIGHT COLUMN -->
