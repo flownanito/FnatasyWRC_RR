@@ -21,6 +21,7 @@ Rails.application.routes.draw do
   end
 
   resources :calendars, only: [:index]
+  resources :rallies, only: [:show]
   resources :teams, only: [:index, :show, :new, :create]
   
   get 'normativa', to: 'rules#index', as: :rules
