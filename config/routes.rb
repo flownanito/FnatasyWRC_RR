@@ -24,6 +24,7 @@ Rails.application.routes.draw do
   resources :teams, only: [:index, :show, :new, :create]
   
   get 'normativa', to: 'rules#index', as: :rules
+  get 'terminos-y-condiciones', to: 'terms#index', as: :terms_and_conditions
   get 'ajustes', to: 'settings#edit', as: :settings
   patch 'ajustes', to: 'settings#update'
 
