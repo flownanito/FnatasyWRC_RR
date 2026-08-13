@@ -5,6 +5,11 @@ class FantasyLineupsController < ApplicationController
 
   def new
     @rally = params[:rally_id] ? Rally.find(params[:rally_id]) : (Rally.ongoing.first || Rally.upcoming.first)
+    
+    if current_user.fantasy_lineups.exists?(rally: @rally, league: @league)
+      return redirect_to league_path(@league), alert: "Ya has configurado tu setup para este rally."
+    end
+
     @lineup = FantasyLineup.new(rally: @rally, league: @league)
     @member = @league.league_members.find_by(user_id: current_user.id)
     load_entities
@@ -27,29 +32,11 @@ class FantasyLineupsController < ApplicationController
   end
 
   def edit
-    @lineup = current_user.fantasy_lineups.find(params[:id])
-    @rally = @lineup.rally
-    @member = @league.league_members.find_by(user_id: current_user.id)
-    load_entities
+    return redirect_to league_path(@league), alert: "No puedes editar el setup una vez confirmado."
   end
 
   def update
-    @lineup = current_user.fantasy_lineups.find(params[:id])
-    @rally = @lineup.rally
-    member = @league.league_members.find_by(user_id: current_user.id)
-
-    old_cost = @lineup.calculate_cost
-
-    if @lineup.update(lineup_params)
-      new_cost = @lineup.calculate_cost
-      difference = new_cost - old_cost
-      member.update!(budget: member.budget - difference)
-
-      redirect_to league_path(@league), notice: "¡Setup actualizado con éxito!"
-    else
-      load_entities
-      render :edit, status: :unprocessable_entity
-    end
+    return redirect_to league_path(@league), alert: "No puedes editar el setup una vez confirmado."
   end
 
   private

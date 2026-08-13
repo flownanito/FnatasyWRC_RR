@@ -16,7 +16,7 @@
 
   <div class="space-y-6">
     <% @rallies.each_with_index do |rally, index| %>
-      <div class="glass-panel rounded-xl overflow-hidden opacity-0 animate-fade-in-up border-l-2 transition-all hover:-translate-y-1 hover:shadow-[0_0_30px_rgba(239,68,68,0.1)] <%= rally.ongoing? ? 'border-l-red-500 shadow-[0_0_20px_rgba(239,68,68,0.1)]' : (rally.finished? ? 'border-l-zinc-600' : 'border-l-zinc-800') %>" style="animation-delay: <%= (index * 100) % 1000 %>ms">
+      <%= link_to rally_path(rally), class: "block glass-panel rounded-xl overflow-hidden opacity-0 animate-fade-in-up border-l-2 transition-all hover:-translate-y-1 hover:shadow-[0_0_30px_rgba(239,68,68,0.1)] #{rally.ongoing? ? 'border-l-red-500 shadow-[0_0_20px_rgba(239,68,68,0.1)]' : (rally.finished? ? 'border-l-zinc-600' : 'border-l-zinc-800')}", style: "animation-delay: #{(index * 100) % 1000}ms" do %>
         <div class="flex flex-col md:flex-row items-stretch">
           
           <!-- Date / Status Block -->
@@ -59,7 +59,7 @@
           </div>
 
         </div>
-      </div>
+      <% end %>
     <% end %>
   </div>
 </div>
