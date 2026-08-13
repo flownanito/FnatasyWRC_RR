@@ -1,0 +1,17 @@
+{
+  "version": 1,
+  "skills": {
+    "ruby-on-rails-best-practices": {
+      "source": "sergiodxa/agent-skills",
+      "sourceType": "github",
+      "skillPath": "skills/ruby-on-rails-best-practices/SKILL.md",
+      "computedHash": "74112454ed35af21a06e076fa9df7283dca2c116f62010618e56f49aa129c656"
+    },
+    "ruby-rails-application": {
+      "source": "aj-geddes/useful-ai-prompts",
+      "sourceType": "github",
+      "skillPath": "skills/ruby-rails-application/SKILL.md",
+      "computedHash": "c591bce00a5194361d748a91f92a739615f0ba9a879a4aad80597d15cb7b0f39"
+    }
+  }
+}
