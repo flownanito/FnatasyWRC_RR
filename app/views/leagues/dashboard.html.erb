@@ -74,7 +74,9 @@
             <div class="flex justify-between items-center mb-6">
               <h2 class="text-2xl font-black text-zinc-900 dark:text-white uppercase tracking-wider"><%= @current_rally.name %></h2>
               <% if @lineup %>
-                <%= link_to "EDITAR SETUP", edit_league_fantasy_lineup_path(@league, @lineup), class: "text-[10px] font-mono font-bold text-zinc-500 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-white uppercase tracking-widest transition-colors border border-zinc-300 dark:border-zinc-700 px-3 py-2 rounded hover:bg-zinc-100 dark:hover:bg-zinc-800" %>
+                <div class="text-[10px] font-mono font-bold text-zinc-400 uppercase tracking-widest border border-zinc-300 dark:border-zinc-700 px-3 py-2 rounded cursor-not-allowed bg-zinc-100 dark:bg-zinc-800 flex items-center gap-2">
+                  <i class="fa-solid fa-lock text-zinc-500"></i> SETUP BLOQUEADO
+                </div>
               <% else %>
                 <%= link_to "CONFIGURAR SETUP", new_league_fantasy_lineup_path(@league, rally_id: @current_rally.id), class: "text-[10px] font-mono font-bold text-red-600 dark:text-red-400 uppercase tracking-widest transition-colors border border-red-500/50 px-3 py-2 rounded bg-red-50 dark:bg-red-500/10 hover:bg-red-100 dark:hover:bg-red-500/20" %>
               <% end %>
@@ -340,8 +342,15 @@
         
         <div class="bg-white dark:bg-zinc-900/40 shadow-xl dark:shadow-none rounded-2xl p-6 relative overflow-hidden border border-zinc-200 dark:border-zinc-800/50 flex flex-col justify-center items-center h-48">
           <p class="text-[10px] text-zinc-500 font-mono uppercase tracking-[0.2em] mb-4">Alineación Próximo Rally</p>
-          <%= link_to new_league_fantasy_lineup_path(@league), class: "inline-block px-6 py-3 bg-zinc-900 text-white dark:bg-white dark:text-zinc-900 text-[10px] font-bold font-mono rounded-lg hover:bg-zinc-800 dark:hover:bg-zinc-200 uppercase tracking-[0.2em] transition-all shadow-md" do %>
-            Configurar Setup
+          <% if @lineup %>
+            <div class="inline-block px-6 py-3 bg-emerald-50 dark:bg-emerald-500/10 text-emerald-600 dark:text-emerald-500 border border-emerald-500/30 text-[10px] font-bold font-mono rounded-lg uppercase tracking-[0.2em] cursor-not-allowed">
+              <i class="fa-solid fa-check mr-2"></i> Setup Confirmado
+            </div>
+            <p class="text-xs text-zinc-400 font-mono mt-3 italic">Tus elecciones han sido guardadas.</p>
+          <% else %>
+            <%= link_to new_league_fantasy_lineup_path(@league, rally_id: @current_rally.id), class: "inline-block px-6 py-3 bg-zinc-900 text-white dark:bg-white dark:text-zinc-900 text-[10px] font-bold font-mono rounded-lg hover:bg-zinc-800 dark:hover:bg-zinc-200 uppercase tracking-[0.2em] transition-all shadow-md" do %>
+              Configurar Setup
+            <% end %>
           <% end %>
         </div>
       </section>

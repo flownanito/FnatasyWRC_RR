@@ -36,5 +36,7 @@
 
 /app/assets/builds/*
 !/app/assets/builds/.keep
-# Gemini Agents
+
+# Antigravity/Agent Skills
 .agents/
+skills-lock.json
