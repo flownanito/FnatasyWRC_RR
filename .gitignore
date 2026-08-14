@@ -40,3 +40,5 @@
 # Antigravity/Agent Skills
 .agents/
 skills-lock.json
+.vercel
+.env*
